@@ -9,7 +9,7 @@ Kubernetes coordinates a highly available cluster of computers that are connecte
 A **Kubernetes cluster** has two types of resources:
  - **Control Plane**: 
    - Coordinates the cluster
- - Nodes: 
+ - **Nodes**: 
    - Actual workers that run the applications in node processes.
    - A Kubernetes cluster has at least three nodes to ensure redundancy
    - Each node is a VM or a physical computer that serves as a worker machine in a Kubernetes cluster.
@@ -61,3 +61,28 @@ Services match a set of Pods using labels and selectors, a grouping primitive th
  - Designate objects for development, test, and production
  - Embed version tags
  - Classify an object using tags
+
+## Kubernetes core concepts for Azure Kubernetes Service (AKS)
+
+Link to Microsoft [guide](https://docs.microsoft.com/en-us/azure/aks/concepts-clusters-workloads)
+
+As application development continues to move towards a container-based approach, there is an increasing need to be able to reliably orchestrate and manage resources. Kubernetes provides a reliable scheduling of fault-tolerant application workloads. Building on top of htat, Microsoft's **Azure Kubernetes Service (AKS)** is a managed Kubernetes offering that further simplifies container-based application deployment and management.
+
+### Kubernetes 
+
+Kubernetes allow for running modern, portable, microservices-based applications with managed orchestration and ensured available of application components. It supports both stateless and stateful applications.
+
+![Summary of Kubernetes Diagram](Pictures/kubernetes_control-plane-and-nodes.png)
+
+The Control Plane, which is provided at no cost as a managed Azure resource, provides the following Kubernetes components:
+- kube-apiserver: Allowing exposing underlying Kubernetes API
+- etcd: maintain state of Kubernetes cluster and configuration
+- kube-scheduler: Scheduler determines what nodes can run workload and starts them. Manages scaling and creation of applications
+- kube-controller-manager: The Controller Manager oversees a number of smaller controllers, of which are responsible for things like replicating pods and handling node actions.
+
+Within each node there are:
+- `kubelet`: Kubernetes agent that processes orchestration requests from control plane along with being responsible for scheduling and running requested containers
+- kube-proxy: Handles the virtual networking on each node. Routes network traffic and manages IP addressing for the services and pods
+- container runtime: Allow containerized applications to run and interact with additional resources like virtual network and storage.
+
+![Azure VM Breakdown](Pictures/kubernetes_vm_breakdown.png)
