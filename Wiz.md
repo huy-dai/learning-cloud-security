@@ -10,7 +10,7 @@ Wiz can help to:
  - Raise warnings and notification high-risk issues to the right team
  - Create a cloud governance practice that manages risks with a given risk budget
 
-Wiz combines functionality of a **Cloud Security Posture Management (CSPM)**, a vulnerability scanner, container security, and CIEM into a single graph. it is able to analyze the full cloud stack across many different platforms (AWS, Azure, GCP, Kubernetes, etc.) It also strives to look at threats in full context of cloud rather than just focusing at single vulnerabilities or misconfigurations in isolation. 
+Wiz combines functionality of a **Cloud Security Posture Management (CSPM)**, a vulnerability scanner, container security, and SIEM into a single graph. it is able to analyze the full cloud stack across many different platforms (AWS, Azure, GCP, Kubernetes, etc.) It also strives to look at threats in full context of cloud rather than just focusing at single vulnerabilities or misconfigurations in isolation. 
 
 ## Threats
 
