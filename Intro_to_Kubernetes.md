@@ -86,3 +86,52 @@ Within each node there are:
 - container runtime: Allow containerized applications to run and interact with additional resources like virtual network and storage.
 
 ![Azure VM Breakdown](Pictures/kubernetes_vm_breakdown.png)
+
+## Quickstart on deploying AKS 
+
+Link to Microsoft [guide](https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal)
+
+When creating a Kubernetes cluster, we have the options to choose/define:
+- Cluster types + presets (to optimize for performance/cost)
+  - Notably I saw the most popular basic option was completely out across many different regions (in US, Europe, etc.)
+- Node pools
+- Resource identity
+  - Either system-assigned managed identity by default or other service principals or even Azure AD
+
+To connect to the Kubernetes cluster, we use the Kubernetes CLI, `kubectl`. In Azure this is made available through the Azure Cloud Shell.
+
+The following command connects to the Kubernetes cluster (by first downloading credentials and configures Kubernetes CLI to use them):
+
+`az aks get-credentials --resource-group myResourceGroup --name myAKSCluster`
+
+`kubectl get nodes` shows list of cluster nodes. Sample output is:
+
+```text
+NAME                                STATUS   ROLES   AGE   VERSION
+aks-agentpool-12345678-vmss000000   Ready    agent   23m   v1.19.11
+aks-agentpool-12345678-vmss000001   Ready    agent   24m   v1.19.11
+```
+
+To create the sample Azure Vote application, they first define the **manifest YAML** file that creates all objects needed to run the app. This includes two separate deployments of:
+
+- Azure Vote python application (front-end)
+- Redis instance (back-end)
+  - Note: Redis is an open-source database
+
+For these the manifest specifies the image (ex. `mcr.microsoft.com/oss/bitnami/redis:6.0.8` for the Redis and `mcr.microsoft.com/azuredocs/azure-vote-front:v1` for the Azure Vote app). They also provide limits on the CPU and memory that the containers can take up.
+
+Two Kubernetes Services are also created, which defines:
+
+- An internal service for Redis instance
+- An external service to access the Azure Vote application from the Internet
+
+They then deploy the application using `kubectl apply` and specify the name of the YAML manifest.
+
+After the application has been created / deployed, we can monitor one of the service (say the front-end) with `kubectl get service azure-vote-front --watch`, which will return something like:
+
+`azure-vote-front   LoadBalancer   10.0.37.27   52.179.23.131   80:30572/TCP   2m`
+
+This also lets us know the public IP, which we can use to browse to view out Azure Voting app.
+
+Continuing steps: Learning to work with a multi-container application. Link to guide: <https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-prepare-app>
+
